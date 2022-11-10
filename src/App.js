@@ -8,7 +8,7 @@ import BechaNft from "./utils/becha.json";
 const TWITTER_HANDLE = "bechabecha_nft";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const OPENSEA_LINK = "";
-const CONTRACT_ADDRESS = '0x9461ea81f3FAf8D171673610B11bcaa80C458C84'
+const CONTRACT_ADDRESS = '0x05b98700ee5305cf401f369575532f1b33122f9f'
 const TOTAL_MINT_COUNT = 100;
 const App = () => {
 const [CONFIG, SET_CONFIG] = useState({
@@ -86,7 +86,11 @@ const askContractToMintNft = async () => {
 
       console.log("Going to pop wallet now to pay gas...");
 
-      let nftTxn = await connectedContract.presale();
+      let nftTxn = await connectedContract.preMint(1, {
+        gasPrice: 3000000000,
+        gasLimit: 200000,
+        value: 8000000000000000,
+      });
 
       console.log("Mining...please wait.");
       await nftTxn.await();
@@ -119,8 +123,18 @@ const askContractToMintNft = async () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">BechaBecha</p>
-          <p className="sub-text">お一人様2つまでミント可能💫</p>
+          <p className="header gradient-text">Becha</p>
+            <div className="sub-text">
+            <p>No Roadmap, No Discord, No Utility, No Rarity</p>
+              <p> Sale: 2022/11/14 21:00 JST ~ (Open: 48 hours)</p>
+              <p> ALSale: 0.008 ETH(24 hours)</p>
+              <p> public Sale: 0.01ETH(24 hours)</p>
+              <p> 2 mint Per Wallet</p>
+              <p> Supply: 100</p>
+            </div> 
+            {/* <div className='banner-img'>
+              <a href={OPENSEA_LINK}><img src={image}/></a>
+            </div> */}
           {currentAccount === "" ? (renderNotConnectedContainer()) : 
           (
             <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
